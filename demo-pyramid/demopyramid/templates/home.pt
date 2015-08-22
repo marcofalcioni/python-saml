@@ -1,0 +1,54 @@
+<div metal:use-macro="load: base.pt">
+
+	<div metal:fill-slot="content">
+
+		<div tal:condition="errors">
+		  <div class="alert alert-danger" role="alert">
+		    <strong>Errors:</strong>
+		    <ul class="list-unstyled">
+		      <li tal:repeat="error errors" tal:content="error" />
+		    </ul>
+		  </div>
+		</div>
+
+		<div tal:condition="not_auth_warn">
+		    <div class="alert alert-danger" role="alert">Not authenticated</div>
+		</div>
+		<div tal:condition="success_slo">
+		    <div class="alert alert-success" role="alert">Successfully logged out</div>
+		</div>
+
+		<div tal:switch="paint_logout">
+		    <div tal:case="True">
+		        <div tal:switch="attributes">
+		            <div tal:case="True">
+		                <table class="table table-striped">
+		                    <thead>
+		                        <th>Name</th>
+		                        <th>Values</th>
+		                    </thead>
+		                    <tbody>
+		                    
+		                    {% for attr in attributes %}
+		                    <tr><td>{{ attr.0 }}</td>
+		                    <td><ul class="list-unstyled">
+		                    {% for val in attr.1 %}
+		                      <li>{{ val }}</li>
+		                    {% endfor %}
+		                    </ul></td></tr>
+		                    {% endfor %}
+		                    </tbody>
+		                </table>
+		            </div>
+		            <div tal:case="False">
+		                <div class="alert alert-danger" role="alert">You don't have any attributes</div>
+		            </div>
+		        </div>
+		    </div>
+		    <div tal:case="False">
+		        <a href="?sso" class="btn btn-primary">Login</a> 
+		        <a href="?sso2" class="btn btn-info">Login and access to attrs page</a>
+		    </div>  
+		</div>
+	</div>
+</div>			
